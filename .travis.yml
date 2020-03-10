@@ -1,4 +1,4 @@
-# == INSTRUCTIONS FOR SETTING UP TRAVIS (and GitHub Pages) ==
+# == INSTRUCTIONS FOR SETTING UP TRAVIS ==
 #
 # 1. Find this repository in your Travis-CI dashboard.
 #    open settings and add an environment variable called
@@ -8,37 +8,32 @@
 #    **DO NOT TURN ON 'Display value in build log'!!!!**
 #
 # 2. Push the code to the repository.
-# 3. Set the GitHub Pages source in the GitHub repository settings to the
-#    gh-pages branch.
 
 language: node_js
 node_js:
- - "12"
+  - lts/*
 
-env:
- - DEPLOY_ENV=GH_PAGES
+os: linux
 
-cache:
- directories:
-  - "node_modules"
+addons:
+  apt:
+    packages:
+      - libgconf-2-4 # cypress binary dependency
+
+cache: npm
 
 branches:
- only:
-  - "master"
+  only:
+    - master
 
 install:
- - "npm install"
- - "npm run generate"
+  - npm ci
+
+before_script:
+  - npm run build # use nuxt build and start to run tests
+
+script:
+  - npm test
 
 notifications:
   webhooks: https://www.travisbuddy.com
-
-deploy:
- provider: pages
- skip-cleanup: true
- # Refer to: https://docs.travis-ci.com/user/deployment/pages/#Setting-the-GitHub-token
- github-token: $GITHUB_ACCESS_TOKEN
- target-branch: gh-pages
- local-dir: dist
- on:
-  branch: master

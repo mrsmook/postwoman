@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# Firebase
+.firebase
+
 ### Node template
 # Logs
 logs
@@ -88,3 +92,15 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Postwoman build data
+.postwoman
+
+# File explorer
+.directory
+
+# Tests screenshots
+tests/*/screenshots
+
+# Tests videos
+tests/*/videos
